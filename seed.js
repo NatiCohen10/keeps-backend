@@ -29,6 +29,13 @@ const users = [
     firstName: "Jane",
     lastName: "Doe",
   },
+  {
+    username: "baba",
+    email: "baba@example.com",
+    password: "1234",
+    firstName: "Baba",
+    lastName: "Netanyahu",
+  },
 ];
 
 const tasks = [
