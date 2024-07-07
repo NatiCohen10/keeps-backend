@@ -19,9 +19,11 @@ async function getTaskById(req, res) {
   try {
     const task = await Task.findOne({ _id: taskId, user: userId });
     if (!task) {
-      res.status(401).json({ error: "Unauthorized to access this task" });
+      return res
+        .status(401)
+        .json({ error: "Unauthorized to access this task" });
     }
-    res.status(200).json(task);
+    return res.status(200).json(task);
   } catch (error) {
     if (error.name === "CastError") {
       console.log(
@@ -34,7 +36,7 @@ async function getTaskById(req, res) {
       taskId,
       error
     );
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 }
 
@@ -100,7 +102,9 @@ async function updateTask(req, res) {
       req.body,
       { new: true, runValidators: true }
     );
+
     if (!updatedTask) {
+      console.log("Unauthorized access");
       return res
         .status(401)
         .json({ error: "Unauthorized, cannot update this task" });
