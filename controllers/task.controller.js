@@ -3,7 +3,7 @@ const User = require("../models/users.model");
 
 async function getTasks(req, res) {
   const { userId } = req;
-  console.log(userId);
+
   try {
     const tasks = await Task.find({ user: userId });
     res.status(200).json(tasks);
@@ -101,20 +101,24 @@ async function updateTask(req, res) {
       { new: true, runValidators: true }
     );
     if (!updatedTask) {
-      res.status(401).json({ error: "Unauthorized, cannot update this task" });
+      return res
+        .status(401)
+        .json({ error: "Unauthorized, cannot update this task" });
     }
-    res.status(200).json(updatedTask);
+    return res.status(200).json(updatedTask);
   } catch (error) {
     console.log(
       "task.controller, updateTask, error while updating task",
-      error
+      error.message
     );
     if (error.name === "ValidationError") {
       console.log("task.controller, updateTask", error.message);
-      res.status(400).json({ message: error.message });
+      return res.status(400).json({ message: error.message });
     } else {
       console.log("task.controller, updateController", error.message);
-      res.status(500).json({ message: "Server error while updating task" });
+      return res
+        .status(500)
+        .json({ message: "Server error while updating task" });
     }
   }
 }
