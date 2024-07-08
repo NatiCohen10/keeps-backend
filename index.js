@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
@@ -28,6 +29,10 @@ async function main() {
   app.use("/api/auth", authRoutes);
   app.use("/api/tasks", verifyToken, taskRoutes);
 
+  // Catch-all route
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+  });
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
