@@ -21,7 +21,7 @@ async function register(req, res) {
       console.log("user already exists");
       return res.status(400).json({ error: "User already exists" });
     }
-    console.log(err.message);
+    console.log("error message: ", err.message);
     res.status(500).json({ error: "registration failed" });
   }
 }
